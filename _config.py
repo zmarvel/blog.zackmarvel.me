@@ -19,12 +19,12 @@
 #  If you're hosting a blogofile powered site as a subdirectory of a larger
 #  non-blogofile site, then you would set the site_url to the full URL
 #  including that subdirectory: "http://www.yoursite.com/path/to/blogofile-dir"
-site.url = "http://www.example.com"
+site.url = "http://blog.zackmarvel.me"
 
 ## site.author -- Your name, the author of the website.
 # This is optional. If set to anything other than None, the
 # simple_blog template creates a meta tag for the site author.
-site.author = "Your Name"
+site.author = "Zack Marvel"
 
 #### Blog Settings ####
 blog = plugins.blog
@@ -39,7 +39,9 @@ blog.enabled = True
 #  and you set blog_path to "/blog" your full blog URL would be
 #  "http://www.yoursite.com/~ryan/blog"
 #  Leave blank "" to set to the root of site_url
-blog.path = "/blog"
+blog.path = ""
+
+blog.custom_index = False
 
 ## blog_name -- Your Blog's name.
 # This is used repeatedly in default blog templates
