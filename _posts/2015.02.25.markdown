@@ -1,0 +1,43 @@
+---
+title: Minecraft and Planets: Map Projections
+date: 2015/2/25 14:40:00
+categories: math, minecraft
+author: me
+draft: True
+---
+
+Recently I've been thinking about how the Minecraft world compares to a real planet. This turned out to be an opportunity to compare the surface of a sphere to a plane, just like putting the surface of a globe on a flat piece of paper.
+
+## How the game represents Minecraft worlds on a coordinate plane ##
+
+Even though I knew that the position of the player in Minecraft was specified by an *x*, *y*, and *z* coordinate, I hadn't really spent a lot of time thinking about how the game is represented. 
+
+<img src="/img/minecraft_axes_smaller.png" alt="Minecraft axes" />
+
+*y*-values range from 0 to 255, while the *x*- and *z*-values can be positive or negative and extend infinitely. Well, according to [Minecraft wiki](http://minecraft.gamepedia.com/The_Overworld), the *x*- and *z*-axes extend from -34,359,738,368 to 34,359,738,367, so they aren't exactly infinite, but who wants to run or fly that far? If you're wondering why these are the limits of the Overworld, here it is: blocks are grouped into 16×16×256 "[chunks](http://minecraft.gamepedia.com/Chunks)", and the *x* and *z* coordinate of a chunk is stored as a 32-bit signed integer. The range that can be stored in a 32-bit signed integer is -2<sup>31</sup> to 2<sup>31</sup> - 1. Multiplying the endpoints of this range by 16 (depth and width of a chunk) gives us the limits of the world. The effect of storing blocks in chunks like this is kind of interesting: since each chunk has the same height as the coordinate plane, we can specify the location of a chunk with only an *x* and *z* coordinate, then specify an (*x*, *y*, *z*) coordinate within that chunk to reference a specific block. And that's what the game does.
+
+### The Minecraft world compared to Earth ###
+
+If we pretend that the Minecraft world *did* wrap around at its edges and form a sphere, its circumference would be 6.8719476736 × 10<sup>7</sup> km. For some perspective, Earth's equatorial circumference is 4.0075 × 10<sup>4</sup> km. This means that even if the Overworld were a sphere, it wouldn't be possible to map Earth on it---the surface features would be scaled to nearly 3 million times their normal size. In actuality, since the Overworld is a [rectangular cuboid](http://en.wikipedia.org/wiki/Cuboid#Rectangular_cuboid), its surface area is (6.8719476736 × 10<sup>7</sup>)<sup>2</sup> km<sup>2</sup>, or 4.722366483007085 × 10<sup>15</sup> km <sup>2</sup>, so the Overworld really has more than 9 million times the surface area of Earth.
+
+## Modeling planets ##
+
+Let's consider a planet. We can model planets as [ellipsoids](http://en.wikipedia.org/wiki/Ellipsoid), or just a sphere. When we want to show a map of a planet, we have to somehow flatten its surface onto a two-dimensional plane.
+
+Imagine a transparent globe marked with longitude and latitude lines inside of a cylinder with the equator of the globe touching the circumference of the cylinder. If there were a light shining inside of the globe, the longitude lines (the ones running from top to bottom) on the globe would be cast on the sides of the cylinder, and they would be evenly spaced. The latitude lines would be projected further and further apart as distance from the equator increased. In fact, the cylinder would have to be infinitely tall to display the whole surface of the globe on its sides (avoiding its top), since the distance between lines of latitude approaches infinity as distance from the equator increases in such a projection. The height of the projection on the outside of the cylinder approaches infinity itself.
+
+### Map projections ###
+
+This is the problem that [map projections](http://en.wikipedia.org/wiki/Map_projection) try to resolve. I just described a type of cylindrical projection. The map comes from slicing the clyinder along one edge and flattening the surface along its circumference. We can actually use any function that takes a coordinate (a longitude and a latitude) on an ellipsoid (or whatever kind of body) and outputs a coordinate on a plane to make a map projection.
+
+<img src="/img/Mercator_projection_SW.jpg" title="Mercator projection" />
+&copy; [User:Strebe](http://commons.wikimedia.org/wiki/User:Strebe) / Wikimedia Commons / [CC-BY-SA-3.0](http://creativecommons.org/licenses/by-sa/3.0/)
+
+We would need to use some sort of projection function to put the surface of a planet in a Minecraft world. In the rudimentary projection I described above, the top and bottom of the globe projection would stretch infinitely. As you can see, this isn't the case in the map projection above. The Mercator projection isn't the projection that a light inside a globe would make. As we get closer to a pole, the parallels get smaller, so we must scale them by a factor approaching infinity so they fit the circumference of the cylinder. The Mercator projection allows for this horizontal scaling of the surface by maintaining a proportional vertical scaling, which also approaches infinity as latitude approaches ±90°. The projection deals with problem by just cutting off a few degrees from the top and bottom of the globe. Even so, we can see that the upper and lower parts of the map are stretched quite a bit both horizontally and vertically.
+
+Intuitively, this kind of makes sense. If you peel an orange, you can't flatten the peel. This is why it isn't possible to preserve the scale of every aspect of the globe in a flat map. In the case of the Mercator projection, it was the preservation of the parallels (circles of latitude) and meridians (circles of longitude) that made it useful, but its shapes were distorted. Some projections are accurate with respect to area but present visually distorted figures. The Robinson projection, pictured below, is another common one that becomes more distorted towards the poles. 
+
+<img src="/img/Robinson_projection_SW.jpg" alt="Robinson projection of Earth" />
+&copy; [User:Strebe](http://commons.wikimedia.org/wiki/User:Strebe) / Wikimedia Commons / [CC-BY-SA-3.0](http://creativecommons.org/licenses/by-sa/3.0/)
+
+The problem of projecting the surface of a sphere or an ellipsoid onto a plane is the same as the problem of mapping a planet on Minecraft. It turns out that we can come up with a function that takes a point on the sphere and produces a point on the plane, but we can't come up with a function that preserves all the properties of the sphere's surface on the plane. If you were only representing a small area on Earth's surface in Minecraft, the distortion would not be noticeable, but representing the whole planet would result in distortion.
