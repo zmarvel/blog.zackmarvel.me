@@ -1,5 +1,5 @@
 ---
-title: Minecraft and Planets: Map Projections
+title: "Minecraft and Planets: Map Projections"
 date: 2015/2/25 14:40:00
 categories: math, minecraft
 author: me
@@ -30,14 +30,14 @@ Imagine a transparent globe marked with longitude and latitude lines inside of a
 
 This is the problem that [map projections](http://en.wikipedia.org/wiki/Map_projection) try to resolve. I just described a type of cylindrical projection. The map comes from slicing the clyinder along one edge and flattening the surface along its circumference. We can actually use any function that takes a coordinate (a longitude and a latitude) on an ellipsoid (or whatever kind of body) and outputs a coordinate on a plane to make a map projection.
 
-<img src="/img/Mercator_projection_SW.jpg" title="Mercator projection" />
+<img src="/img/Mercator_projection_SW_smaller.jpg" title="Mercator projection" />
 &copy; [User:Strebe](http://commons.wikimedia.org/wiki/User:Strebe) / Wikimedia Commons / [CC-BY-SA-3.0](http://creativecommons.org/licenses/by-sa/3.0/)
 
 We would need to use some sort of projection function to put the surface of a planet in a Minecraft world. In the rudimentary projection I described above, the top and bottom of the globe projection would stretch infinitely. As you can see, this isn't the case in the map projection above. The Mercator projection isn't the projection that a light inside a globe would make. As we get closer to a pole, the parallels get smaller, so we must scale them by a factor approaching infinity so they fit the circumference of the cylinder. The Mercator projection allows for this horizontal scaling of the surface by maintaining a proportional vertical scaling, which also approaches infinity as latitude approaches ±90°. The projection deals with problem by just cutting off a few degrees from the top and bottom of the globe. Even so, we can see that the upper and lower parts of the map are stretched quite a bit both horizontally and vertically.
 
 Intuitively, this kind of makes sense. If you peel an orange, you can't flatten the peel. This is why it isn't possible to preserve the scale of every aspect of the globe in a flat map. In the case of the Mercator projection, it was the preservation of the parallels (circles of latitude) and meridians (circles of longitude) that made it useful, but its shapes were distorted. Some projections are accurate with respect to area but present visually distorted figures. The Robinson projection, pictured below, is another common one that becomes more distorted towards the poles. 
 
-<img src="/img/Robinson_projection_SW.jpg" alt="Robinson projection of Earth" />
+<img src="/img/Robinson_projection_SW_smaller.jpg" alt="Robinson projection of Earth" />
 &copy; [User:Strebe](http://commons.wikimedia.org/wiki/User:Strebe) / Wikimedia Commons / [CC-BY-SA-3.0](http://creativecommons.org/licenses/by-sa/3.0/)
 
 The problem of projecting the surface of a sphere or an ellipsoid onto a plane is the same as the problem of mapping a planet on Minecraft. It turns out that we can come up with a function that takes a point on the sphere and produces a point on the plane, but we can't come up with a function that preserves all the properties of the sphere's surface on the plane. If you were only representing a small area on Earth's surface in Minecraft, the distortion would not be noticeable, but representing the whole planet would result in distortion.
