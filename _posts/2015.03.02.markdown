@@ -1,0 +1,11 @@
+---
+title: "Minecraft and Planets: Elevation"
+date: 2015/03/02 1:19:00
+categories: math, minecraft
+author: me
+draft: True
+---
+
+Another interesting facet of the comparison between the Minecraft world and a planet is the property of elevation. On Earth, the most common way to measure this is meters above [sea level](https://en.wikipedia.org/wiki/Sea_level). Imagine Earth as a sphere with a thin, wrinkly layer coating it. Notice that we can split up the distance from the center of the sphere to a point on the surface of the coating into *r*, the distance from the center to the inside of the coating, and *t*, the thickness of the coating at that point. This is a simplified model of how sea level works, but if *r* is really large, say around 3600 km, and *t* is pretty small (under 10km), it's easy to see why we would want to measure elevation relative to "sea level" compared to the distance from the center of the planet.
+
+The Minecraft world may be infinite-ish in width and length, but its height is limited to 256 meters (an elevation from 0 m to 255 m). This is kind of similar to the sea level idea on Earth (though sea level in the Overworld is actually at *y*=62); we kind of *assume* there may be more planet or whatever under *y*=0, but as far as our elevation is concerned, the origin of the *y*-axis is there.  
